@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#5fb0c9"
+    android:orientation="vertical"
+    android:scrollbarAlwaysDrawVerticalTrack="true">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+        <ImageButton
+            android:id="@+id/btnRegistrarEpisodio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/dolor_cabeza"
+            android:background="@android:color/transparent">
+        </ImageButton>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/registrar_episodio"
+            android:gravity="center_horizontal"
+            android:textColor="#fff"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+        <Button
+        android:id="@+id/btnIngresar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="22dp"
+        android:background="#cddc39"
+        android:textColor="#fff"
+        android:text="@string/consultar_dictamen"
+        android:textAllCaps="false"
+        android:textSize="18sp" /></LinearLayout>
+    </RelativeLayout>

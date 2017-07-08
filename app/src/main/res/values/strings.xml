@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Registro episodios de migrana</string>
+    <string name="usuario">Usuario</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="olvido_contrasena">¿Olvidó su contraseña?</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="salir">Salir</string>
+    <string name="confirmacion_salida">¿Está seguro que quiere salir de la aplicación?</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    <string name="agregar_episodio">Agregar episodio</string>
+    <string name="consultar_dictamen">Consultar dictamen</string>
+    <string name="registrar_episodio">Registrar episodio de migraña</string>
+    <string name="fecha">Fecha</string>
+    <string name="medicamentos">Medicamentos</string>
+    <string name="confirmacion_regreso">¿Está seguro que quiere regresar sin guardar?</string>
+    <string name="configuracion_url">Configuración URL servicios</string>
+    <string name="url">URL</string>
+    <string name="fecha_hora_episodio">Fecha y hora</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="anterior">Anterior</string>
+    <string name="fecha_episodio">Fecha de episodio</string>
+    <string name="hora_episodio">Hora episodio</string>
+    <string name="medicamientos_tomando">Medicamentos tomando</string>
+</resources>
