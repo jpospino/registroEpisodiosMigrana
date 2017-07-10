@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.sinergia.registroepisodiosdemigrana.Activities.DB.DBHelper;
+import com.sinergia.registroepisodiosdemigrana.Activities.Dto.URLDto;
 import com.sinergia.registroepisodiosdemigrana.R;
 
 public class CapturarURLActivity extends AppCompatActivity {
@@ -21,14 +23,17 @@ public class CapturarURLActivity extends AppCompatActivity {
         final EditText txtURLServicios = (EditText) findViewById(R.id.txtURLServicios);
         Button btnSalir = (Button) findViewById(R.id.btnSalir);
 
-        txtURLServicios.setText(intent.getStringExtra("URL"));
+        DBHelper dbHelper = new DBHelper(this);
+
+        txtURLServicios.setText(dbHelper.GetLastURL().getURL());
 
         btnSalir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent();
-                intent.putExtra("URL", txtURLServicios.getText().toString());
-                setResult(RESULT_OK, intent);
+                DBHelper dbHelper = new DBHelper(CapturarURLActivity.this);
+                URLDto ultimo = dbHelper.GetLastURL();
+                dbHelper.InsertContract(ultimo.getId() + 1, txtURLServicios.getText().toString());
+                setResult(RESULT_OK, null);
                 finish();
             }
         });

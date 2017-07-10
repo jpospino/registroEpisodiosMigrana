@@ -2,10 +2,12 @@ package com.sinergia.registroepisodiosdemigrana.Activities;
 
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
+import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -25,16 +27,20 @@ import com.sinergia.registroepisodiosdemigrana.R;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class RegistrarEpisodioActivity extends AppCompatActivity {
 
     private Episodio episodioRegistrar;
     private String AudioSavePathInDevice = null;
-    private String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
     public static final int RequestPermissionCode = 1;
     private MediaRecorder mediaRecorder ;
+    private Boolean isRecording = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,34 +69,71 @@ public class RegistrarEpisodioActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checkPermission()) {
 
-                    AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
-                                    CreateRandomAudioFileName(5) + "AudioRecording.3gp";
+                    if(!isRecording) {
+                        AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath().toString()
+                                                + "/"
+                                                + CreateRandomAudioFileName()
+                                                + "_audio.3gp";
 
-                    MediaRecorderReady();
+                        isRecording = true;
+                        MediaRecorderReady();
 
-                    try {
-                        mediaRecorder.prepare();
-                        mediaRecorder.start();
-                    } catch (IllegalStateException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                        try {
+                            mediaRecorder.prepare();
+                            mediaRecorder.start();
+                            isRecording = true;
+                        } catch (IllegalStateException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+                        Toast.makeText(RegistrarEpisodioActivity.this, R.string.inicio_grabacion, Toast.LENGTH_LONG).show();
                     }
+                    else {
+                        isRecording = false;
+                        MediaRecorderStop();
 
-                    buttonStart.setEnabled(false);
-                    buttonStop.setEnabled(true);
+                        MediaPlayer mediaPlayer = new MediaPlayer();
+                        try {
+                            mediaPlayer.setDataSource(AudioSavePathInDevice);
+                            mediaPlayer.prepare();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                    Toast.makeText(MainActivity.this, "Recording started",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    requestPermission();
-                }
+                        mediaPlayer.start();
+                        Toast.makeText(RegistrarEpisodioActivity.this, R.string.escuchando_grabacion, Toast.LENGTH_LONG).show();
 
-            }
+                        new AlertDialog.Builder( RegistrarEpisodioActivity.this)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setTitle(R.string.enviar)
+                                .setMessage(R.string.confirmacion_enviar)
+                                .setPositiveButton(R.string.si, new DialogInterface.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
 
-            }
+                                })
+                                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        File file = new File(AudioSavePathInDevice);
+                                        if(file.exists()){
+                                            file.delete();
+                                            Toast.makeText(RegistrarEpisodioActivity.this,
+                                                    R.string.archivo_borrado, Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }).show();
+                    }
+                    } else {
+                        requestPermission();
+                    }}
         });
 
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
@@ -116,19 +159,14 @@ public class RegistrarEpisodioActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(controlesLayout.getVisibility() == LinearLayout.VISIBLE) {
                     onBackPressed();
-                    //completarDiaFecha(datePickerFechaEpisodio);
-                    //controlesLayout.setVisibility(LinearLayout.GONE);
-                    //controlesLayout2.setVisibility(LinearLayout.VISIBLE);
                 }
                 else {
                     if(controlesLayout2.getVisibility() == LinearLayout.VISIBLE){
-                        //completarHoraFecha(timePickerHoraEpisodio);
                         controlesLayout.setVisibility(LinearLayout.VISIBLE);
                         controlesLayout2.setVisibility(LinearLayout.GONE);
                     }
                     else {
                         if(controlesLayout3.getVisibility() == LinearLayout.VISIBLE){
-                            //completarHoraFecha(timePickerHoraEpisodio);
                             controlesLayout3.setVisibility(LinearLayout.GONE);
                             controlesLayout2.setVisibility(LinearLayout.VISIBLE);
                         }
@@ -174,16 +212,9 @@ public class RegistrarEpisodioActivity extends AppCompatActivity {
         episodioRegistrar.setFechaHora(fechaHora);
     }
 
-    private String CreateRandomAudioFileName(int string){
-        StringBuilder stringBuilder = new StringBuilder( string );
-        int i = 0 ;
-        while(i < string ) {
-            stringBuilder.append(RandomAudioFileName.
-                    charAt(random.nextInt(RandomAudioFileName.length())));
-
-            i++ ;
-        }
-        return stringBuilder.toString();
+    private String CreateRandomAudioFileName(){
+        DateFormat df = new SimpleDateFormat("yyyy_mm_dd_HH_mm");
+        return df.format(Calendar.getInstance().getTime());
     }
     public boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
@@ -200,6 +231,10 @@ public class RegistrarEpisodioActivity extends AppCompatActivity {
         mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         mediaRecorder.setOutputFile(AudioSavePathInDevice);
     }
+    private void MediaRecorderStop(){
+        mediaRecorder.stop();
+        Toast.makeText(RegistrarEpisodioActivity.this, R.string.gracion_completada, Toast.LENGTH_LONG).show();
+    }
 
 
     @Override
@@ -207,16 +242,13 @@ public class RegistrarEpisodioActivity extends AppCompatActivity {
         switch (requestCode) {
             case RequestPermissionCode:
                 if (grantResults.length> 0) {
-                    boolean StoragePermission = grantResults[0] ==
-                            PackageManager.PERMISSION_GRANTED;
-                    boolean RecordPermission = grantResults[1] ==
-                            PackageManager.PERMISSION_GRANTED;
+                    boolean StoragePermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean RecordPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
 
                     if (StoragePermission && RecordPermission) {
-                        Toast.makeText(RegistrarEpisodioActivity.this, "Permission Granted",
-                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegistrarEpisodioActivity.this, R.string.permiso_concedido, Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(RegistrarEpisodioActivity.this,"Permission Denied",Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegistrarEpisodioActivity.this,R.string.permiso_negado,Toast.LENGTH_LONG).show();
                     }
                 }
                 break;

@@ -113,14 +113,29 @@
         android:layout_above="@+id/frameLayOutControls"
         android:layout_alignParentBottom="true"
         android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1">
         <ImageButton
             android:id="@+id/btnGrabar"
             android:background="@null"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_mic_black_24dp">
+            android:src="@drawable/ic_mic_black_24dp"
+            android:layout_weight="1">
         </ImageButton>
+        <!--<ImageButton
+            android:id="@+id/btnStopGrabar"
+            android:layout_width="70dp"
+            android:layout_height="70sp"
+            android:src="@drawable/ic_mic_black_24dp"
+            android:layout_weight="1"
+            android:background="@null"/>-->
+        </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

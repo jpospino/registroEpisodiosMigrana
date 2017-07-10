@@ -22,4 +22,16 @@
     <string name="fecha_episodio">Fecha de episodio</string>
     <string name="hora_episodio">Hora episodio</string>
     <string name="medicamientos_tomando">Medicamentos tomando</string>
+    <string name="enviar">Enviar</string>
+    <string name="confirmacion_enviar">¿Decea enviar la grabación como episodio de migraña?</string>
+    <string name="archivo">Archivo borrado</string>
+    <string name="escuchando">Escuchando la grabación</string>
+    <string name="escuchando_grabacion">Escuchando la grabación</string>
+    <string name="inicio">Inicio de grabación</string>
+    <string name="inicio_grabacion">Inicio de grabación</string>
+    <string name="permiso_concedido">Permiso concedido</string>
+    <string name="permiso_negado">Permiso negado</string>
+    <string name="gracion_completada">Granbación completada</string>
+    <string name="archivo_borrado">Archivo borrado</string>
+    <string name="error_login">Error en el usuario o contraseña proporcinado. Por faavor vueeleva a intentarlo.</string>
 </resources>
