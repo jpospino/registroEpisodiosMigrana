@@ -30,7 +30,7 @@
             android:textSize="26sp"
             android:textStyle="bold" />
         <Button
-        android:id="@+id/btnIngresar"
+        android:id="@+id/btnConsultarDictamen"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="22dp"

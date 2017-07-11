@@ -1,6 +1,8 @@
 package com.sinergia.registroepisodiosdemigrana.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,5 +40,16 @@ public class CapturarURLActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        final EditText txtURLServicios = (EditText) findViewById(R.id.txtURLServicios);
+
+        DBHelper dbHelper = new DBHelper(CapturarURLActivity.this);
+        URLDto ultimo = dbHelper.GetLastURL();
+        dbHelper.InsertContract(ultimo.getId() + 1, txtURLServicios.getText().toString());
+        setResult(RESULT_OK, null);
+        finish();
     }
 }

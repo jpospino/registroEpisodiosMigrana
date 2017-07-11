@@ -34,4 +34,6 @@
     <string name="gracion_completada">Granbación completada</string>
     <string name="archivo_borrado">Archivo borrado</string>
     <string name="error_login">Error en el usuario o contraseña proporcinado. Por faavor vueeleva a intentarlo.</string>
+    <string name="error_service_login">Ocurrió un error en el consumo del servicio.</string>
+    <string name="ingresar_usuario_contrasena">Debe ingresar usuario y contraseña para poder continuar.</string>
 </resources>
